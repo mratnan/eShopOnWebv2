@@ -1,4 +1,4 @@
-name: Deploy to Azure Web App
+name: Build and Deploy .NET Application
 
 on:
   push:
@@ -13,26 +13,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Remove existing output directory
+        run: rm -rf ./output  # Remove the output directory if it exists
+
       - name: Set up .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '8.0'  # Update to the version you need
+          dotnet-version: '8.0'  # Specify the .NET version you are using
 
-      - name: Restore dependencies
-        run: dotnet restore ./eShopOnWeb.sln  # Adjust the path as needed
+      - name: Restore .NET dependencies
+        run: dotnet restore ./eShopOnWeb.sln  # Adjust the path to your solution file
 
-      - name: Clean Output Directory
-        run: rm -rf ./output/*  # Clean the output directory
-
-      - name: Build
+      - name: Build .NET solution
         run: dotnet build ./eShopOnWeb.sln --configuration Release  # Adjust the path as needed
 
-      - name: Publish
-        run: dotnet publish ./eShopOnWeb.sln --configuration Release --output ./output  # Adjust the path as needed
+      - name: Publish .NET application
+        run: dotnet publish ./eShopOnWeb.sln --configuration Release --output ./output  # Consider unique output paths if necessary
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: midwebapp
-          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-          package: './output'  # Deploy the published output
+          app-name: midwebapp  # Replace with your Azure Web App name
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}  # Ensure this secret is set in your repository
+          package: './output'  # Path to the published output
