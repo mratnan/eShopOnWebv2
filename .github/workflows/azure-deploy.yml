@@ -13,22 +13,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: List files
-        run: ls -R  # Debugging step to list files
-
       - name: Set up .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '8.0.x'  # Update to .NET 8.0
+          dotnet-version: '8.0'  # Update to the version you need
 
       - name: Restore dependencies
-        run: dotnet restore ./eShopOnWeb.sln  # Adjust the path if necessary
+        run: dotnet restore ./eShopOnWeb.sln  # Adjust the path as needed
+
+      - name: Clean Output Directory
+        run: rm -rf ./output/*  # Clean the output directory
 
       - name: Build
-        run: dotnet build ./eShopOnWeb.sln --configuration Release  # Adjust the path if necessary
+        run: dotnet build ./eShopOnWeb.sln --configuration Release  # Adjust the path as needed
 
       - name: Publish
-        run: dotnet publish ./eShopOnWeb.sln --configuration Release --output ./output  # Adjust the path if necessary
+        run: dotnet publish ./eShopOnWeb.sln --configuration Release --output ./output  # Adjust the path as needed
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
