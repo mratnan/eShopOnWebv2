@@ -16,20 +16,20 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '7.0'  # Use the version your project targets
+          dotnet-version: '7.0'  # Replace with your project's target .NET version
 
       - name: Restore dependencies
-        run: dotnet restore ./eShopOnWeb.sln  # Ensure this path is correct
+        run: dotnet restore ./eShopOnWeb.sln  # Adjust the path if necessary
 
       - name: Build
-        run: dotnet build ./eShopOnWeb.sln --configuration Release  # Ensure this path is correct
+        run: dotnet build ./eShopOnWeb.sln --configuration Release  # Adjust the path if necessary
 
       - name: Publish
-        run: dotnet publish ./eShopOnWeb.sln --configuration Release --output ./output  # Ensure this path is correct
+        run: dotnet publish ./eShopOnWeb.sln --configuration Release --output ./output  # Adjust the path if necessary
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: midwebapp
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-          package: './output'  # Deploy the published output
+          package: './output'  # This should be the output directory from the publish step
